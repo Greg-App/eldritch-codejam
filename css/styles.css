@@ -1,21 +1,153 @@
 @font-face {
-    font-family: 'Arial-MT';
+    font-family: 'Arial-MT' sans-serif;
     src: url("assets/fonts/Arial-MT.woff");
     font-style: normal;
 	font-weight: normal;
   }
 * {
 box-sizing: border-box;
+margin:0; padding:0;
 }
 
 body {
-    padding:10px;
+    padding:20px;
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between;
+   align-items:flex-start;
     font-size: 22px;
+    color: white;
+
     margin:0;
-    background: url('assets/home.png') center/cover;
+    background: url('../assets/home.png') center/cover;
 background-blend-mode: multiply;
-width:100vw;
+width:100%;
 min-height:100vh;
 
     
+} 
+
+.ancients-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+    max-width: 473px;
+    padding: 10px;
+}
+.ancients-container .ancient-card {
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: contain;
+   border-radius:10px;
+    height: 260px;
+    width: 200px;
+}
+.ancient-card:hover {
+    cursor: pointer;
+    border: 1px solid rgb(119, 0, 255);
+    transition: 0.3s ease-in-out;
+}
+
+
+.difficulty-container {
+    padding:20px;
+display: flex;
+flex-direction: column;
+gap: 20px;
+justify-content: center;
+align-items:center;
+height: 100%;
+
+}
+.button {
+    padding:5px;
+    border-radius: 7px;
+    border:none;
+    font-size: inherit;
+    font-family: inherit;
+    color:inherit;
+    outline:none;
+    background-color: rgba(24, 115, 143, 0.7);
+    height: 50px;
+    width: 120px;
+    text-align: center;
+
+}
+
+.shuffle {
+    margin-top: 40px;
+    background-color: rgba(81, 64, 238, 0.7);
+
+}
+.button-active {
+    background-color: rgba(175, 74, 96, 1.0);
+}
+
+.button:hover {
+cursor: pointer;
+
+}
+
+.deck-container {
+    align-items: center;
+    display: flex;
+    padding:10px;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+    min-width: 30%;
+    width: 150px;
+    height: 100%;
+    outline: 1px solid red;
+}
+.deck-container .current-state {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 30%;
+}
+
+.deck-container .current-state .stage-container {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.deck-container .current-state .stage-container .dots-container {
+    align-items: center;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+.deck-container .current-state .stage-container .dot {
+    align-items: center;
+    border-radius: 50%;
+    display: flex;
+    height: 30px;
+    justify-content: center;
+    width: 30px;
+}
+.deck-container .current-state .stage-container .dot.green {
+    background-color: green;
+}
+.deck-container .current-state .stage-container .dot.brown {
+    background-color: brown;
+}
+.deck-container .current-state .stage-container .dot.blue {
+    background-color: blue;
+}
+.deck-container .deck, .deck-container .last-card {
+    background-size: cover;
+    height: 190px;
+    width: 130px;
+    border-radius: 7px;
+    cursor:pointer;
+}
+.deck:active, button:active, .ancient-card:active {
+    transform: scale(1.1,1.1);
+transition:0.3s ;
+}
+.last-card {
+    outline: 1px solid red;
 }
