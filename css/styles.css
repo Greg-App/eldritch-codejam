@@ -157,3 +157,7 @@ transition:0.3s ;
 .last-card {
     outline: 1px solid red;
 }
+
+.option-active {
+    outline: 2px solid red;
+}
