@@ -86,6 +86,8 @@ height: 100%;
 
 .button:hover {
 cursor: pointer;
+transition: 0.3s;
+outline: 1px solid rgb(153, 39, 39);
 
 }
 
@@ -147,6 +149,10 @@ cursor: pointer;
 .deck:active, button:active, .ancient-card:active {
     transform: scale(1.1,1.1);
 transition:0.3s ;
+}
+.deck:hover {
+    outline: 1px solid red;
+    transition:0.3s ;
 }
 .last-card {
     outline: 1px solid red;
