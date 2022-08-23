@@ -1,4 +1,24 @@
 import ancientsData from './data/ancients.js';
+import cardsGreenData from './data/mythicCards/green/index.js';
+import cardsBrownData from './data/mythicCards/brown/index.js';
+import cardsBlueData from './data/mythicCards/blue/index.js';
+
+/*-----get cards lib --START-----*/
+let libGreen=[];
+let libBrown=[];
+let libBlue=[];
+function createCurCardLib () {
+    libGreen.push.apply(libGreen,cardsGreenData);
+    libBrown.push.apply(libBrown,cardsBrownData);
+    libBlue.push.apply(libBlue,cardsBlueData);
+}
+createCurCardLib ();
+console.log(libGreen);
+console.log(libBrown);
+console.log(libBlue);
+
+/*-----get cards lib ---END----*/
+
 /* const dashboard ={};
   Object.assign(dashboard,ancientsData);
 console.log(ancientsData); 
@@ -20,8 +40,8 @@ ancPic.setAttribute('id',`${el.id}`);
 }
 createAncPicList();
 
-/*---Create card set data----*/
-let curCardSet = {};
+/*---Create and display current card set config----*/
+let curCardSetConf = {};
 function createAncCardSet(e) {
    if(e.target.classList.contains('ancient-card')) { const ancActiveList = document.querySelectorAll('.option-active');
        
@@ -33,40 +53,36 @@ function createAncCardSet(e) {
         }
  if (!e.target.classList.contains('option-active')) {
     let ind = ancientsData.findIndex(el=> el.id===e.target.id);
-    Object.assign(curCardSet,ancientsData[ind]);
+    Object.assign(curCardSetConf,ancientsData[ind]);
     e.target.classList.add('option-active');
-    showCurCardSet(); 
+    showcurCardSetConf(); 
  } 
    } 
 }
 
 /*-----show Card Set----------*/
-function showCurCardSet() {
-    if (curCardSet) {
+function showcurCardSetConf() {
+    if (curCardSetConf) {
        const ancSetTable = document.querySelectorAll('.dot');
        let stages =[];
-       let cardSetKeys =Object.keys(curCardSet);
+       let cardSetKeys =Object.keys(curCardSetConf);
        cardSetKeys.forEach ((el)=>{
         if (el.includes('first')) {
-            stages.push(curCardSet[el].greenCards,curCardSet[el].brownCards,curCardSet[el].blueCards);
+            stages.push(curCardSetConf[el].greenCards,curCardSetConf[el].brownCards,curCardSetConf[el].blueCards);
            
            }
            if (el.includes('second')) {
-            stages.push(curCardSet[el].greenCards,curCardSet[el].brownCards,curCardSet[el].blueCards);
+            stages.push(curCardSetConf[el].greenCards,curCardSetConf[el].brownCards,curCardSetConf[el].blueCards);
             
            }
            if (el.includes('third')) {
-            stages.push(curCardSet[el].greenCards,curCardSet[el].brownCards,curCardSet[el].blueCards);
+            stages.push(curCardSetConf[el].greenCards,curCardSetConf[el].brownCards,curCardSetConf[el].blueCards);
             
             for (let i=0; i<ancSetTable.length;i++) {
                 ancSetTable[i].textContent =stages[i];
             }
            }
        }); 
-       } 
-       console.log(curCardSet);
-       
-    
-    
+       }  
 }
  
