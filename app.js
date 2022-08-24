@@ -245,4 +245,67 @@ function divideToStages() {
 
 /*-----final stack-------*/
 let finalStack =[];
+const deckBtn = document.querySelector('.deck');
+deckBtn.addEventListener('click',takeCard);
 
+function takeCard (e) {
+    if(e.target.id==='deck') {
+    const ancSetTable = document.querySelectorAll('.dot');
+const lastCard = document.querySelector('.last-card');
+    let curCard;
+    let randInd;
+    
+   if(stage1Cards.length!==0) {
+        randInd=getRandNum(stage1Cards.length-1);
+curCard =stage1Cards.slice(randInd,randInd+1);
+console.log(curCard[0]);
+lastCard.setAttribute('style', `background-image: url('${curCard[0].cardFace}.png')`);
+finalStack.push(curCard[0]);
+stage1Cards.splice(randInd,1);
+console.log(stage1Cards.length);
+console.log(finalStack);
+} else if (stage2Cards.length!==0) {
+    randInd=getRandNum(stage2Cards.length-1);
+    curCard =stage2Cards.slice(randInd,randInd+1);
+    console.log(curCard[0]);
+    lastCard.setAttribute('style', `background-image: url('${curCard[0].cardFace}.png')`);
+    finalStack.push(curCard[0]);
+    stage2Cards.splice(randInd,1);
+    console.log(stage2Cards.length);
+    console.log(finalStack);
+
+} else if (stage3Cards.length!==0) {
+    randInd=getRandNum(stage3Cards.length-1);
+    curCard =stage3Cards.slice(randInd,randInd+1);
+    console.log(curCard[0]);
+    lastCard.setAttribute('style', `background-image: url('${curCard[0].cardFace}.png')`);
+    finalStack.push(curCard[0]);
+    stage3Cards.splice(randInd,1);
+    console.log(stage3Cards.length);
+    console.log(finalStack);
+} else {
+    alert('WELL DONE');
+}
+
+/* while(stage2Cards.length>0) {
+    randInd=getRandNum(stage2Cards.length-1);
+curCard =stage2Cards.slice(randInd,randInd+1);
+lastCard.setAttribute('style', `background-image: url('${curCard.cardFace}.png')`);
+finalStack.unshift(curCard);
+stage2Cards.splice(randInd,1);
+console.log(stage2Cards.length);
+}
+console.log(finalStack);
+
+while(stage3Cards.length>0) {
+    randInd=getRandNum(stage3Cards.length-1);
+curCard =stage3Cards.slice(randInd,randInd+1);
+lastCard.setAttribute('style', `background-image: url('${curCard.cardFace}.png')`);
+finalStack.unshift(curCard);
+stage3Cards.splice(randInd,1);
+console.log(stage3Cards.length);
+}
+console.log(finalStack); */
+
+}
+}
