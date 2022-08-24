@@ -161,3 +161,20 @@ transition:0.3s ;
 .option-active {
     outline: 2px solid red;
 }
+.btn-option-active {
+    background-color: rgba(175, 74, 96, 1.0);
+}
+.deck {position: relative;}
+.deck-cover {
+    position: absolute;
+    width:100%;
+    height:100%;
+    z-index:50;
+    display:block;
+    background:none;
+}
+.deck-cover-active {
+    display:none;
+    width:0px;
+    height:0px;
+}
