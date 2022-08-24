@@ -13,6 +13,7 @@ let curCardSetConf = {};
 let stages = [];
 let greenNum, brownNum, blueNum;
 let curLevel;
+let curTable;
 let stage1Cards, stage2Cards, stage3Cards;
 /*-----get initial cards lib --START-----*/
 function createCardLib() {
@@ -100,7 +101,25 @@ function showcurCardSetConf() {
             }
             if (el.includes('third')) {
                 stages.push(curCardSetConf[el].greenCards, curCardSetConf[el].brownCards, curCardSetConf[el].blueCards);
-
+                curTable = {
+                    stage1: {
+                        green: stages[0],
+                        brown: stages[1],
+                        blue: stages[2],   
+                    },
+                    stage2: {
+                        green: stages[3],
+                        brown: stages[4],
+                        blue: stages[5],   
+                    },
+                    stage3: {
+                        green: stages[6],
+                        brown: stages[7],
+                        blue: stages[8],   
+                    },
+                };
+                console.log(stages);
+                console.log(curTable);
                 for (let i = 0; i < ancSetTable.length; i++) {
                     ancSetTable[i].textContent = stages[i];
                 }
@@ -108,6 +127,7 @@ function showcurCardSetConf() {
         });
     }
 }
+
 
 /*-------Choose curLevel ----START-------*/
 const levelBtns = document.querySelector('.difficulty-container');
@@ -211,17 +231,17 @@ function shuffleDeck() {
         if (curLevel === 'easy') {
             levEasy();
             console.log(curLevel);
-            console.log(curDeck);
+            
         }
         if (curLevel === 'medium') {
             levMedium();
             console.log(curLevel);
-            console.log(curDeck);
+            
         }
         if (curLevel === 'hard') {
             levHard();
             console.log(curLevel);
-            console.log(curDeck);
+            
         }
         const deck = document.querySelector('.deck');
         const deckCover = document.querySelector('.deck-cover');
@@ -245,20 +265,42 @@ function divideToStages() {
 
 /*-----final stack-------*/
 let finalStack =[];
+
 const deckBtn = document.querySelector('.deck');
 deckBtn.addEventListener('click',takeCard);
 
 function takeCard (e) {
     if(e.target.id==='deck') {
-    const ancSetTable = document.querySelectorAll('.dot');
+    const dotTable = document.querySelectorAll('.dot');
+    
+     const dotTableIndMap = {
+    stage1: {
+        green: 0,
+        brown: 1,
+        blue: 2,   
+    },
+    stage2: {
+        green: 3,
+        brown: 4,
+        blue: 5,   
+    },
+    stage3: {
+        green: 6,
+        brown: 7,
+        blue: 8,   
+    },
+}; 
 const lastCard = document.querySelector('.last-card');
     let curCard;
     let randInd;
+    let ind;
     
    if(stage1Cards.length!==0) {
         randInd=getRandNum(stage1Cards.length-1);
 curCard =stage1Cards.slice(randInd,randInd+1);
-console.log(curCard[0]);
+curTable.stage1[curCard[0].color]=curTable.stage1[curCard[0].color]-1;
+dotTable[dotTableIndMap.stage1[curCard[0].color]].textContent=curTable.stage1[curCard[0].color];
+console.log(curCard[0].color);
 lastCard.setAttribute('style', `background-image: url('${curCard[0].cardFace}.png')`);
 finalStack.push(curCard[0]);
 stage1Cards.splice(randInd,1);
@@ -267,9 +309,11 @@ console.log(finalStack);
 } else if (stage2Cards.length!==0) {
     randInd=getRandNum(stage2Cards.length-1);
     curCard =stage2Cards.slice(randInd,randInd+1);
+    curTable.stage2[curCard[0].color]=curTable.stage2[curCard[0].color]-1;
+    dotTable[dotTableIndMap.stage2[curCard[0].color]].textContent=curTable.stage2[curCard[0].color];
     console.log(curCard[0]);
     lastCard.setAttribute('style', `background-image: url('${curCard[0].cardFace}.png')`);
-    finalStack.push(curCard[0]);
+    finalStack.unshift(curCard[0]);
     stage2Cards.splice(randInd,1);
     console.log(stage2Cards.length);
     console.log(finalStack);
@@ -277,35 +321,18 @@ console.log(finalStack);
 } else if (stage3Cards.length!==0) {
     randInd=getRandNum(stage3Cards.length-1);
     curCard =stage3Cards.slice(randInd,randInd+1);
+    curTable.stage3[curCard[0].color]=curTable.stage3[curCard[0].color]-1;
+    dotTable[dotTableIndMap.stage3[curCard[0].color]].textContent=curTable.stage3[curCard[0].color];
     console.log(curCard[0]);
     lastCard.setAttribute('style', `background-image: url('${curCard[0].cardFace}.png')`);
-    finalStack.push(curCard[0]);
+    finalStack.unshift(curCard[0]);
     stage3Cards.splice(randInd,1);
     console.log(stage3Cards.length);
     console.log(finalStack);
 } else {
+    console.log(finalStack);
     alert('WELL DONE');
 }
-
-/* while(stage2Cards.length>0) {
-    randInd=getRandNum(stage2Cards.length-1);
-curCard =stage2Cards.slice(randInd,randInd+1);
-lastCard.setAttribute('style', `background-image: url('${curCard.cardFace}.png')`);
-finalStack.unshift(curCard);
-stage2Cards.splice(randInd,1);
-console.log(stage2Cards.length);
-}
-console.log(finalStack);
-
-while(stage3Cards.length>0) {
-    randInd=getRandNum(stage3Cards.length-1);
-curCard =stage3Cards.slice(randInd,randInd+1);
-lastCard.setAttribute('style', `background-image: url('${curCard.cardFace}.png')`);
-finalStack.unshift(curCard);
-stage3Cards.splice(randInd,1);
-console.log(stage3Cards.length);
-}
-console.log(finalStack); */
 
 }
 }
