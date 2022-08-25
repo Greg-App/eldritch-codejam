@@ -15,6 +15,7 @@ let greenNum, brownNum, blueNum;
 let curLevel;
 let curTable;
 let stage1Cards, stage2Cards, stage3Cards;
+let finalStack =[];
 /*-----get initial cards lib --START-----*/
 function createCardLib() {
     libGreen.splice(0, libGreen.length);
@@ -24,28 +25,19 @@ function createCardLib() {
     libBrown.push.apply(libBrown, cardsBrownData);
     libBlue.push.apply(libBlue, cardsBlueData);
     defDeck = [libGreen, libBrown, libBlue];
-
-
 }
 createCardLib();
-
-/*---function get random number-----*/
+console.log('Default Decks: ');
+console.log(defDeck);
+/*-----get cards lib ---END----*/
+/*---Helper function get random number-----*/
 function getRandNum(max) {
     return Math.floor(Math.random() * (max + 1));
 }
-
-
-/*-----get cards lib ---END----*/
-
-/* const dashboard ={};
-  Object.assign(dashboard,ancientsData);
-console.log(ancientsData); 
-
-let a = ancientsData.findIndex((el) => {return el.name==="azathoth";});
-console.log(a); */
 const ancDataList = ancientsData.slice();
 const ancPicList = document.querySelector('.ancients-container');
 ancPicList.addEventListener('click', createAncCardSet);
+
 /*---Create ancients Pics list----*/
 function createAncPicList() {
     ancDataList.forEach((el) => {
@@ -58,12 +50,19 @@ function createAncPicList() {
 }
 createAncPicList();
 
-/*---Create and display active card set config and display deck table----*/
+/*---Create and display active card set config (choose ancient) and display deck table----*/
 
 
 function createAncCardSet(e) {
     if (e.target.classList.contains('ancient-card')) {
         const ancActiveList = document.querySelectorAll('.option-active');
+        resetFinal();
+            const deck = document.querySelector('.deck');
+            const deckCover = document.querySelector('.deck-cover');
+            deck.classList.remove('option-active');
+            deckCover.classList.remove('deck-cover-active');
+            const btnActiveList = document.querySelectorAll('.btn-option-active');
+            document.querySelector('#shuffle').classList.remove('option-active');
 
         if (ancActiveList) {
             ancActiveList.forEach((el) => {
@@ -83,14 +82,28 @@ function createAncCardSet(e) {
 
         }
     }
+    console.log(curCardSetConf);
 }
 
 /*-----Display deck table----------*/
-
+function resetFinal () {
+    const deck = document.querySelector('.deck');
+    if (deck.classList.contains('option-active')) {
+        const lastCard = document.querySelector('.last-card');
+        lastCard.setAttribute('style', `background-image: none`);
+        finalStack.splice(0,finalStack.length);
+        stage1Cards.splice(0,stage1Cards.length);
+        stage2Cards.splice(0,stage2Cards.length);
+        stage3Cards.splice(0,stage3Cards.length);
+        showcurCardSetConf();
+    }
+   
+}
 function showcurCardSetConf() {
     if (curCardSetConf) {
         const ancSetTable = document.querySelectorAll('.dot');
         stages.splice(0, stages.length);
+        finalStack.splice(0, stages.length);
         let cardSetKeys = Object.keys(curCardSetConf);
         cardSetKeys.forEach((el) => {
             if (el.includes('first')) {
@@ -119,7 +132,7 @@ function showcurCardSetConf() {
                     },
                 };
                 console.log(stages);
-                console.log(curTable);
+                
                 for (let i = 0; i < ancSetTable.length; i++) {
                     ancSetTable[i].textContent = stages[i];
                 }
@@ -135,8 +148,15 @@ levelBtns.addEventListener('click', setLevel);
 
 function setLevel(e) {
     if (curCardSetConf.id) {
+       
+
 
         if (e.target.classList.contains('button') && e.target.id !== 'shuffle') {
+            resetFinal();
+            const deck = document.querySelector('.deck');
+            const deckCover = document.querySelector('.deck-cover');
+            deck.classList.remove('option-active');
+            deckCover.classList.remove('deck-cover-active');
             const btnActiveList = document.querySelectorAll('.btn-option-active');
 
             if (btnActiveList) {
@@ -161,7 +181,7 @@ function setLevel(e) {
 /*-------Choose click curLevel ----END-------*/
 
 /*-------get cards for curDeck-----------*/
-
+/*---Helper function shuffle input array------------*/
 function shuffle(arrInput) {
     let array = [];
     array.push.apply(array, arrInput);
@@ -176,8 +196,8 @@ function shuffle(arrInput) {
     }
     return array;
 }
+/*--functions for chosen level------*/
 function levVeryEasy() {
-    
     let arr = [];
     arr.push.apply(arr, defDeck);
     const hard=[
@@ -336,26 +356,31 @@ function shuffleDeck() {
         alert('choose level first');
     } else { 
         if (curLevel === 'very-easy') {
+            resetFinal ();
             levVeryEasy();
             console.log(curLevel);
             
         }
         if (curLevel === 'easy') {
+            resetFinal ();
             levEasy();
             console.log(curLevel);
             
         }
         if (curLevel === 'medium') {
+            resetFinal ();
             levMedium();
             console.log(curLevel);
             
         }
         if (curLevel === 'hard') {
+            resetFinal ();
             levHard();
             console.log(curLevel);
             
         }
         if (curLevel === 'expert') {
+            resetFinal ();
             levExpert();
             console.log(curLevel);
             
@@ -365,7 +390,7 @@ function shuffleDeck() {
         if (!deck.classList.contains('option-active')) {
             deck.classList.add('option-active');
             deckCover.classList.add('deck-cover-active');
-        }
+        } 
     }
 }
 /*------create miniDecks for each stage-----------*/
@@ -378,10 +403,16 @@ function divideToStages() {
 
     stage3Cards = curDeck[0].splice(0, curCardSetConf.thirdStage.greenCards).concat(curDeck[1].splice(0, curCardSetConf.thirdStage.brownCards), curDeck[2].splice(0, curCardSetConf.thirdStage.blueCards));
     stage3Cards = shuffle(stage3Cards);
+    console.log('stage1 cards:');
+    console.log(stage1Cards);
+    console.log('stage2 cards:');
+    console.log(stage2Cards);
+    console.log('stage3 cards:');
+    console.log(stage3Cards);
 }
 
 /*-----final stack-------*/
-let finalStack =[];
+
 
 const deckBtn = document.querySelector('.deck');
 deckBtn.addEventListener('click',takeCard);
@@ -408,10 +439,9 @@ function takeCard (e) {
     },
 }; 
 const lastCard = document.querySelector('.last-card');
+
     let curCard;
     let randInd;
-    let ind;
-    
    if(stage1Cards.length!==0) {
         randInd=getRandNum(stage1Cards.length-1);
 curCard =stage1Cards.slice(randInd,randInd+1);
@@ -451,5 +481,5 @@ console.log(finalStack);
     alert('WELL DONE');
 }
 
-}
+} else {alert('shuffle decks for each stage - press Shuffle button');}
 }
