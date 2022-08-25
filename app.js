@@ -2,7 +2,7 @@ import ancientsData from './data/ancients.js';
 import cardsGreenData from './data/mythicCards/green/index.js';
 import cardsBrownData from './data/mythicCards/brown/index.js';
 import cardsBlueData from './data/mythicCards/blue/index.js';
-console.log('Карты отбираемые в результирующую колоду в конце,\n складываются в массив finalStack.\n Результирующая колода отобразится в консоли\n после всех операций под именем Result Stack. Верхом колоды(стека)\n считается конец массива. Сверху идут карты Stage1, затем Stage2,\n далее Stage3.\n Каждая колода для каждого стеqджа отдельно перемешана');
+console.log('Карты отбираемые в результирующую колоду в конце,\n складываются в массив finalStack.\n Результирующая колода отобразится в консоли\n после всех операций под именем Result Stack. Верхом колоды(стека)\n считается конец массива. Сверху идут карты Stage1, затем Stage2,\n далее Stage3.\n Каждая колода для каждого стейджа отдельно перемешана');
 
 let libGreen = [];
 let libBrown = [];
