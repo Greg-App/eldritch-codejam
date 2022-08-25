@@ -129,7 +129,7 @@ function showcurCardSetConf() {
 }
 
 
-/*-------Choose curLevel ----START-------*/
+/*-------Choose click curLevel ----START-------*/
 const levelBtns = document.querySelector('.difficulty-container');
 levelBtns.addEventListener('click', setLevel);
 
@@ -158,7 +158,7 @@ function setLevel(e) {
     }
 
 }
-/*-------Choose curLevel ----END-------*/
+/*-------Choose click curLevel ----END-------*/
 
 /*-------get cards for curDeck-----------*/
 
@@ -176,7 +176,60 @@ function shuffle(arrInput) {
     }
     return array;
 }
-
+function levVeryEasy() {
+    
+    let arr = [];
+    arr.push.apply(arr, defDeck);
+    const hard=[
+        arr[0].filter(elem => elem.difficulty === 'hard'),
+        arr[1].filter(elem => elem.difficulty === 'hard'),
+        arr[2].filter(elem => elem.difficulty === 'hard')
+    ]; 
+    let ar = [];
+    arr.forEach((el) => {
+        el = el.filter((elem) => {
+            return elem.difficulty !== 'hard';
+        });
+        ar.push(el);
+    });
+    
+    const snow=[
+        ar[0].filter(elem => elem.difficulty === 'easy'),
+        ar[1].filter(elem => elem.difficulty === 'easy'),
+        ar[2].filter(elem => elem.difficulty === 'easy')
+    ]; 
+    const normal = [
+        ar[0].filter(elem => elem.difficulty === 'normal'),
+        ar[1].filter(elem => elem.difficulty === 'normal'),
+        ar[2].filter(elem => elem.difficulty === 'normal')
+    ];
+    function veryEasyDeck(easy,normal,num) {
+        if(num>easy.length) {
+            console.log('snow< then number needed');
+        return shuffle(easy).concat(shuffle(normal).slice(0,num-easy.length));
+        } else {
+            return shuffle(easy).slice(0,num);
+        }
+    } 
+    console.log('DefDeck: ');
+    console.log(defDeck);
+    console.log('hard:');
+    console.log(hard);
+    console.log('snow:');
+    console.log(snow);
+    console.log('normal:');
+    console.log(normal);
+    console.log('numbers needed:'+'gr: '+greenNum,'br: '+brownNum,'bl: '+blueNum);
+    console.log('snowflakes:'+'gr: '+snow[0].length,'br: '+snow[1].length,'bl: '+snow[2].length);
+    
+      curDeck=[
+        shuffle(veryEasyDeck(snow[0],normal[0],greenNum)),
+        shuffle(veryEasyDeck(snow[1],normal[1],brownNum)),
+        shuffle(veryEasyDeck(snow[2],normal[2],blueNum))
+    ];
+    console.log(curDeck);
+    divideToStages();
+}
 function levEasy() {
     let arr = [];
     arr.push.apply(arr, defDeck);
@@ -219,6 +272,60 @@ function levHard() {
 
     divideToStages();
 }
+function levExpert() {
+    
+    let arr = [];
+    arr.push.apply(arr, defDeck);
+    const snow=[
+        arr[0].filter(elem => elem.difficulty === 'easy'),
+        arr[1].filter(elem => elem.difficulty === 'easy'),
+        arr[2].filter(elem => elem.difficulty === 'easy')
+    ]; 
+    let ar = [];
+    arr.forEach((el) => {
+        el = el.filter((elem) => {
+            return elem.difficulty !== 'easy';
+        });
+        ar.push(el);
+    });
+    
+    const hard=[
+        ar[0].filter(elem => elem.difficulty === 'hard'),
+        ar[1].filter(elem => elem.difficulty === 'hard'),
+        ar[2].filter(elem => elem.difficulty === 'hard')
+    ]; 
+    const normal = [
+        ar[0].filter(elem => elem.difficulty === 'normal'),
+        ar[1].filter(elem => elem.difficulty === 'normal'),
+        ar[2].filter(elem => elem.difficulty === 'normal')
+    ];
+    function veryEasyDeck(hard,normal,num) {
+        if(num>hard.length) {
+            console.log('hard< then number needed');
+        return shuffle(hard).concat(shuffle(normal).slice(0,num-hard.length));
+        } else {
+            return shuffle(hard).slice(0,num);
+        }
+    } 
+    console.log('DefDeck: ');
+    console.log(defDeck);
+    console.log('snow:');
+    console.log(snow);
+    console.log('palps:');
+    console.log(hard);
+    console.log('normal:');
+    console.log(normal);
+    console.log('numbers needed:'+'gr: '+greenNum,'br: '+brownNum,'bl: '+blueNum);
+    console.log('palps:'+'gr: '+hard[0].length,'br: '+hard[1].length,'bl: '+hard[2].length);
+    
+      curDeck=[
+        shuffle(veryEasyDeck(hard[0],normal[0],greenNum)),
+        shuffle(veryEasyDeck(hard[1],normal[1],brownNum)),
+        shuffle(veryEasyDeck(hard[2],normal[2],blueNum))
+    ];
+    console.log(curDeck);
+    divideToStages();
+}
 
 
 const shuffleBtn = document.querySelector('#shuffle');
@@ -227,7 +334,12 @@ shuffleBtn.addEventListener('click', shuffleDeck);
 function shuffleDeck() {
     if (!curLevel) {
         alert('choose level first');
-    } else {
+    } else { 
+        if (curLevel === 'very-easy') {
+            levVeryEasy();
+            console.log(curLevel);
+            
+        }
         if (curLevel === 'easy') {
             levEasy();
             console.log(curLevel);
@@ -240,6 +352,11 @@ function shuffleDeck() {
         }
         if (curLevel === 'hard') {
             levHard();
+            console.log(curLevel);
+            
+        }
+        if (curLevel === 'expert') {
+            levExpert();
             console.log(curLevel);
             
         }
@@ -311,7 +428,7 @@ console.log(finalStack);
     curCard =stage2Cards.slice(randInd,randInd+1);
     curTable.stage2[curCard[0].color]=curTable.stage2[curCard[0].color]-1;
     dotTable[dotTableIndMap.stage2[curCard[0].color]].textContent=curTable.stage2[curCard[0].color];
-    console.log(curCard[0]);
+    console.log(curCard[0].color);
     lastCard.setAttribute('style', `background-image: url('${curCard[0].cardFace}.png')`);
     finalStack.unshift(curCard[0]);
     stage2Cards.splice(randInd,1);
@@ -323,7 +440,7 @@ console.log(finalStack);
     curCard =stage3Cards.slice(randInd,randInd+1);
     curTable.stage3[curCard[0].color]=curTable.stage3[curCard[0].color]-1;
     dotTable[dotTableIndMap.stage3[curCard[0].color]].textContent=curTable.stage3[curCard[0].color];
-    console.log(curCard[0]);
+    console.log(curCard[0].color);
     lastCard.setAttribute('style', `background-image: url('${curCard[0].cardFace}.png')`);
     finalStack.unshift(curCard[0]);
     stage3Cards.splice(randInd,1);
