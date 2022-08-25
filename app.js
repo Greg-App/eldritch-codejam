@@ -15,7 +15,9 @@ let greenNum, brownNum, blueNum;
 let curLevel;
 let curTable;
 let stage1Cards, stage2Cards, stage3Cards;
+let stage1CardsNum, stage2CardsNum,stage3CardsNum;
 let finalStack =[];
+let resultStack =[];
 /*-----get initial cards lib --START-----*/
 function createCardLib() {
     libGreen.splice(0, libGreen.length);
@@ -29,6 +31,7 @@ function createCardLib() {
 createCardLib();
 console.log('Default Decks: ');
 console.log(defDeck);
+console.log('_______________________________________________');
 /*-----get cards lib ---END----*/
 /*---Helper function get random number-----*/
 function getRandNum(max) {
@@ -83,6 +86,7 @@ function createAncCardSet(e) {
         }
     }
     console.log(curCardSetConf);
+    console.log('_______________________________________________');
 }
 
 /*-----Display deck table----------*/
@@ -131,7 +135,9 @@ function showcurCardSetConf() {
                         blue: stages[8],   
                     },
                 };
+                console.log('Current cards configuration:');
                 console.log(stages);
+                
                 
                 for (let i = 0; i < ancSetTable.length; i++) {
                     ancSetTable[i].textContent = stages[i];
@@ -196,6 +202,14 @@ function shuffle(arrInput) {
     }
     return array;
 }
+let curAr =[];
+/*---hepler-- func for display current deck after level filter-*/
+function logCurDeck (array) {
+   
+    curAr=structuredClone(array);
+    console.log('current Deck after level filter: ');
+    console.log(curAr);
+}
 /*--functions for chosen level------*/
 function levVeryEasy() {
     let arr = [];
@@ -247,7 +261,7 @@ function levVeryEasy() {
         shuffle(veryEasyDeck(snow[1],normal[1],brownNum)),
         shuffle(veryEasyDeck(snow[2],normal[2],blueNum))
     ];
-    console.log(curDeck);
+    logCurDeck (curDeck);
     divideToStages();
 }
 function levEasy() {
@@ -263,6 +277,7 @@ function levEasy() {
     curDeck = [shuffle(ar[0]).slice(0, greenNum), shuffle(ar[1]).slice(0, brownNum), shuffle(ar[2]).slice(0, blueNum)];
     curDeck = [shuffle(curDeck[0]), shuffle(curDeck[1]), shuffle(curDeck[2])];
     
+    logCurDeck (curDeck);
     divideToStages();
 }
 
@@ -273,7 +288,7 @@ function levMedium() {
 
     curDeck = [shuffle(ar[0]).slice(0, greenNum), shuffle(ar[1]).slice(0, brownNum), shuffle(ar[2]).slice(0, blueNum)];
     curDeck = [shuffle(curDeck[0]), shuffle(curDeck[1]), shuffle(curDeck[2])];
-
+    logCurDeck (curDeck);
     divideToStages();
 }
 
@@ -289,7 +304,7 @@ function levHard() {
     });
     curDeck = [shuffle(ar[0]).slice(0, greenNum), shuffle(ar[1]).slice(0, brownNum), shuffle(ar[2]).slice(0, blueNum)];
     curDeck = [shuffle(curDeck[0]), shuffle(curDeck[1]), shuffle(curDeck[2])];
-
+    logCurDeck (curDeck);
     divideToStages();
 }
 function levExpert() {
@@ -343,7 +358,7 @@ function levExpert() {
         shuffle(veryEasyDeck(hard[1],normal[1],brownNum)),
         shuffle(veryEasyDeck(hard[2],normal[2],blueNum))
     ];
-    console.log(curDeck);
+    logCurDeck (curDeck);
     divideToStages();
 }
 
@@ -358,33 +373,36 @@ function shuffleDeck() {
         if (curLevel === 'very-easy') {
             resetFinal ();
             levVeryEasy();
-            console.log(curLevel);
+           
             
         }
         if (curLevel === 'easy') {
             resetFinal ();
             levEasy();
-            console.log(curLevel);
+            
             
         }
         if (curLevel === 'medium') {
             resetFinal ();
             levMedium();
-            console.log(curLevel);
+           
             
         }
         if (curLevel === 'hard') {
             resetFinal ();
             levHard();
-            console.log(curLevel);
+           
             
         }
         if (curLevel === 'expert') {
             resetFinal ();
             levExpert();
-            console.log(curLevel);
+           
             
         }
+        console.log('__________________________________________');
+        console.log('Current level: '+curLevel);
+        console.log('__________________________________________');
         const deck = document.querySelector('.deck');
         const deckCover = document.querySelector('.deck-cover');
         if (!deck.classList.contains('option-active')) {
@@ -395,14 +413,18 @@ function shuffleDeck() {
 }
 /*------create miniDecks for each stage-----------*/
 function divideToStages() {
+    curDeck = [shuffle(curDeck[0]), shuffle(curDeck[1]), shuffle(curDeck[2])];
     stage1Cards = curDeck[0].splice(0, curCardSetConf.firstStage.greenCards).concat(curDeck[1].splice(0, curCardSetConf.firstStage.brownCards), curDeck[2].splice(0, curCardSetConf.firstStage.blueCards));
     stage1Cards = shuffle(stage1Cards);
+    stage1CardsNum=stage1Cards.length;
 
     stage2Cards = curDeck[0].splice(0, curCardSetConf.secondStage.greenCards).concat(curDeck[1].splice(0, curCardSetConf.secondStage.brownCards), curDeck[2].splice(0, curCardSetConf.secondStage.blueCards));
     stage2Cards = shuffle(stage2Cards);
+    stage2CardsNum=stage2Cards.length;
 
     stage3Cards = curDeck[0].splice(0, curCardSetConf.thirdStage.greenCards).concat(curDeck[1].splice(0, curCardSetConf.thirdStage.brownCards), curDeck[2].splice(0, curCardSetConf.thirdStage.blueCards));
     stage3Cards = shuffle(stage3Cards);
+    stage3CardsNum=stage3Cards.length;
     console.log('stage1 cards:');
     console.log(stage1Cards);
     console.log('stage2 cards:');
@@ -447,22 +469,24 @@ const lastCard = document.querySelector('.last-card');
 curCard =stage1Cards.slice(randInd,randInd+1);
 curTable.stage1[curCard[0].color]=curTable.stage1[curCard[0].color]-1;
 dotTable[dotTableIndMap.stage1[curCard[0].color]].textContent=curTable.stage1[curCard[0].color];
-console.log(curCard[0].color);
+console.log('Current card: '+curCard[0].color+' '+curCard[0].difficulty+' '+curCard[0].id);
 lastCard.setAttribute('style', `background-image: url('${curCard[0].cardFace}.png')`);
 finalStack.push(curCard[0]);
 stage1Cards.splice(randInd,1);
-console.log(stage1Cards.length);
+console.log('Current Stage cards left: '+stage1Cards.length);
+console.log('final stack: ');
 console.log(finalStack);
 } else if (stage2Cards.length!==0) {
     randInd=getRandNum(stage2Cards.length-1);
     curCard =stage2Cards.slice(randInd,randInd+1);
     curTable.stage2[curCard[0].color]=curTable.stage2[curCard[0].color]-1;
     dotTable[dotTableIndMap.stage2[curCard[0].color]].textContent=curTable.stage2[curCard[0].color];
-    console.log(curCard[0].color);
+    console.log('Current card: '+curCard[0].color+' '+curCard[0].difficulty+' '+curCard[0].id);
     lastCard.setAttribute('style', `background-image: url('${curCard[0].cardFace}.png')`);
     finalStack.unshift(curCard[0]);
     stage2Cards.splice(randInd,1);
-    console.log(stage2Cards.length);
+    console.log('Current Stage cards left: '+stage2Cards.length);
+    console.log('final stack: ');
     console.log(finalStack);
 
 } else if (stage3Cards.length!==0) {
@@ -470,16 +494,23 @@ console.log(finalStack);
     curCard =stage3Cards.slice(randInd,randInd+1);
     curTable.stage3[curCard[0].color]=curTable.stage3[curCard[0].color]-1;
     dotTable[dotTableIndMap.stage3[curCard[0].color]].textContent=curTable.stage3[curCard[0].color];
-    console.log(curCard[0].color);
+    console.log('Current card: '+curCard[0].color+' '+curCard[0].difficulty+' '+curCard[0].id);
     lastCard.setAttribute('style', `background-image: url('${curCard[0].cardFace}.png')`);
     finalStack.unshift(curCard[0]);
     stage3Cards.splice(randInd,1);
-    console.log(stage3Cards.length);
+    console.log('Current Stage cards left: '+stage3Cards.length);
+    console.log('final stack: ');
     console.log(finalStack);
+    if (stage3Cards.length===0) {
+        resultStack=shuffle(finalStack.slice(0,stage3CardsNum)).concat(shuffle(finalStack.slice(stage3CardsNum,stage3CardsNum+stage2CardsNum)),shuffle(finalStack.slice(stage3CardsNum+stage2CardsNum,finalStack.length)));
+        console.log('Result stack: ');
+        console.log(resultStack);
+        
+    }
 } else {
-    console.log(finalStack);
+    lastCard.setAttribute('style', `background-image: none`);
     alert('WELL DONE');
 }
 
-} else {alert('shuffle decks for each stage - press Shuffle button');}
+} else {alert('Shuffle decks for each stage first - press Shuffle button');}
 }
