@@ -2,7 +2,7 @@ import ancientsData from './data/ancients.js';
 import cardsGreenData from './data/mythicCards/green/index.js';
 import cardsBrownData from './data/mythicCards/brown/index.js';
 import cardsBlueData from './data/mythicCards/blue/index.js';
-console.log('Карты отбираемые в результирующую колоду в конце,\n складываются в массив finalStack.\n Результирующая колода отобразится в консоли\n после всех операций под именем Result Stack. Верхом колоды(стека)\n считается конец массива. Сверху идут карты Stage1, затем Stage2,\n далее Stage3.\n Каждая колода для каждого стейджа отдельно перемешана');
+console.log(' Карты, отбираемые юзером в результирующую колоду,\nсначала складываются в массив finalStack.\n Каждая новая стадия здесь подкладывается под предыдущую.\n Результирующая колода отобразится в консоли,\nпосле всех операций, под именем Result Stack. Верхом колоды(стека)\nсчитается конец массива. Сверху идут карты Stage1, затем Stage2,\nдалее Stage3.\n Каждая колода для каждого стейджа в массиве Result Stack дополнительно перемешана');
 
 let libGreen = [];
 let libBrown = [];
@@ -15,9 +15,9 @@ let greenNum, brownNum, blueNum;
 let curLevel;
 let curTable;
 let stage1Cards, stage2Cards, stage3Cards;
-let stage1CardsNum, stage2CardsNum,stage3CardsNum;
-let finalStack =[];
-let resultStack =[];
+let stage1CardsNum, stage2CardsNum, stage3CardsNum;
+let finalStack = [];
+let resultStack = [];
 /*-----get initial cards lib --START-----*/
 function createCardLib() {
     libGreen.splice(0, libGreen.length);
@@ -55,17 +55,16 @@ createAncPicList();
 
 /*---Create and display active card set config (choose ancient) and display deck table----*/
 
-
 function createAncCardSet(e) {
     if (e.target.classList.contains('ancient-card')) {
         const ancActiveList = document.querySelectorAll('.option-active');
         resetFinal();
-            const deck = document.querySelector('.deck');
-            const deckCover = document.querySelector('.deck-cover');
-            deck.classList.remove('option-active');
-            deckCover.classList.remove('deck-cover-active');
-            const btnActiveList = document.querySelectorAll('.btn-option-active');
-            document.querySelector('#shuffle').classList.remove('option-active');
+        const deck = document.querySelector('.deck');
+        const deckCover = document.querySelector('.deck-cover');
+        deck.classList.remove('option-active');
+        deckCover.classList.remove('deck-cover-active');
+        const btnActiveList = document.querySelectorAll('.btn-option-active');
+        document.querySelector('#shuffle').classList.remove('option-active');
 
         if (ancActiveList) {
             ancActiveList.forEach((el) => {
@@ -82,7 +81,6 @@ function createAncCardSet(e) {
             greenNum = curCardSetConf.firstStage.greenCards + curCardSetConf.secondStage.greenCards + curCardSetConf.thirdStage.greenCards;
             brownNum = curCardSetConf.firstStage.brownCards + curCardSetConf.secondStage.brownCards + curCardSetConf.thirdStage.brownCards;
             blueNum = curCardSetConf.firstStage.blueCards + curCardSetConf.secondStage.blueCards + curCardSetConf.thirdStage.blueCards;
-
         }
     }
     console.log(curCardSetConf);
@@ -90,19 +88,21 @@ function createAncCardSet(e) {
 }
 
 /*-----Display deck table----------*/
-function resetFinal () {
+function resetFinal() {
     const deck = document.querySelector('.deck');
     if (deck.classList.contains('option-active')) {
         const lastCard = document.querySelector('.last-card');
         lastCard.setAttribute('style', `background-image: none`);
-        finalStack.splice(0,finalStack.length);
-        stage1Cards.splice(0,stage1Cards.length);
-        stage2Cards.splice(0,stage2Cards.length);
-        stage3Cards.splice(0,stage3Cards.length);
+        lastCard.textContent ='';
+        finalStack.splice(0, finalStack.length);
+        stage1Cards.splice(0, stage1Cards.length);
+        stage2Cards.splice(0, stage2Cards.length);
+        stage3Cards.splice(0, stage3Cards.length);
         showcurCardSetConf();
     }
-   
+
 }
+
 function showcurCardSetConf() {
     if (curCardSetConf) {
         const ancSetTable = document.querySelectorAll('.dot');
@@ -122,23 +122,22 @@ function showcurCardSetConf() {
                     stage1: {
                         green: stages[0],
                         brown: stages[1],
-                        blue: stages[2],   
+                        blue: stages[2],
                     },
                     stage2: {
                         green: stages[3],
                         brown: stages[4],
-                        blue: stages[5],   
+                        blue: stages[5],
                     },
                     stage3: {
                         green: stages[6],
                         brown: stages[7],
-                        blue: stages[8],   
+                        blue: stages[8],
                     },
                 };
                 console.log('Current cards configuration:');
                 console.log(stages);
-                
-                
+
                 for (let i = 0; i < ancSetTable.length; i++) {
                     ancSetTable[i].textContent = stages[i];
                 }
@@ -154,9 +153,6 @@ levelBtns.addEventListener('click', setLevel);
 
 function setLevel(e) {
     if (curCardSetConf.id) {
-       
-
-
         if (e.target.classList.contains('button') && e.target.id !== 'shuffle') {
             resetFinal();
             const deck = document.querySelector('.deck');
@@ -175,7 +171,6 @@ function setLevel(e) {
             if (!e.target.classList.contains('btn-option-active')) {
                 curLevel = e.target.id;
                 e.target.classList.add('btn-option-active');
-
                 document.querySelector('#shuffle').classList.add('option-active');
             }
         }
@@ -202,11 +197,10 @@ function shuffle(arrInput) {
     }
     return array;
 }
-let curAr =[];
+let curAr = [];
 /*---hepler-- func for display current deck after level filter-*/
-function logCurDeck (array) {
-   
-    curAr=structuredClone(array);
+function logCurDeck(array) {
+    curAr = structuredClone(array);
     console.log('current Deck after level filter: ');
     console.log(curAr);
 }
@@ -214,11 +208,11 @@ function logCurDeck (array) {
 function levVeryEasy() {
     let arr = [];
     arr.push.apply(arr, defDeck);
-    const hard=[
+    const hard = [
         arr[0].filter(elem => elem.difficulty === 'hard'),
         arr[1].filter(elem => elem.difficulty === 'hard'),
         arr[2].filter(elem => elem.difficulty === 'hard')
-    ]; 
+    ];
     let ar = [];
     arr.forEach((el) => {
         el = el.filter((elem) => {
@@ -226,25 +220,25 @@ function levVeryEasy() {
         });
         ar.push(el);
     });
-    
-    const snow=[
+    const snow = [
         ar[0].filter(elem => elem.difficulty === 'easy'),
         ar[1].filter(elem => elem.difficulty === 'easy'),
         ar[2].filter(elem => elem.difficulty === 'easy')
-    ]; 
+    ];
     const normal = [
         ar[0].filter(elem => elem.difficulty === 'normal'),
         ar[1].filter(elem => elem.difficulty === 'normal'),
         ar[2].filter(elem => elem.difficulty === 'normal')
     ];
-    function veryEasyDeck(easy,normal,num) {
-        if(num>easy.length) {
+
+    function veryEasyDeck(easy, normal, num) {
+        if (num > easy.length) {
             console.log('snow< then number needed');
-        return shuffle(easy).concat(shuffle(normal).slice(0,num-easy.length));
+            return shuffle(easy).concat(shuffle(normal).slice(0, num - easy.length));
         } else {
-            return shuffle(easy).slice(0,num);
+            return shuffle(easy).slice(0, num);
         }
-    } 
+    }
     console.log('DefDeck: ');
     console.log(defDeck);
     console.log('hard:');
@@ -253,17 +247,18 @@ function levVeryEasy() {
     console.log(snow);
     console.log('normal:');
     console.log(normal);
-    console.log('numbers needed:'+'gr: '+greenNum,'br: '+brownNum,'bl: '+blueNum);
-    console.log('snowflakes:'+'gr: '+snow[0].length,'br: '+snow[1].length,'bl: '+snow[2].length);
-    
-      curDeck=[
-        shuffle(veryEasyDeck(snow[0],normal[0],greenNum)),
-        shuffle(veryEasyDeck(snow[1],normal[1],brownNum)),
-        shuffle(veryEasyDeck(snow[2],normal[2],blueNum))
+    console.log('numbers needed:' + 'gr: ' + greenNum, 'br: ' + brownNum, 'bl: ' + blueNum);
+    console.log('snowflakes:' + 'gr: ' + snow[0].length, 'br: ' + snow[1].length, 'bl: ' + snow[2].length);
+
+    curDeck = [
+        shuffle(veryEasyDeck(snow[0], normal[0], greenNum)),
+        shuffle(veryEasyDeck(snow[1], normal[1], brownNum)),
+        shuffle(veryEasyDeck(snow[2], normal[2], blueNum))
     ];
-    logCurDeck (curDeck);
+    logCurDeck(curDeck);
     divideToStages();
 }
+
 function levEasy() {
     let arr = [];
     arr.push.apply(arr, defDeck);
@@ -276,19 +271,16 @@ function levEasy() {
     });
     curDeck = [shuffle(ar[0]).slice(0, greenNum), shuffle(ar[1]).slice(0, brownNum), shuffle(ar[2]).slice(0, blueNum)];
     curDeck = [shuffle(curDeck[0]), shuffle(curDeck[1]), shuffle(curDeck[2])];
-    
-    logCurDeck (curDeck);
+    logCurDeck(curDeck);
     divideToStages();
 }
-
 
 function levMedium() {
     let ar = [];
     ar.push.apply(ar, defDeck);
-
     curDeck = [shuffle(ar[0]).slice(0, greenNum), shuffle(ar[1]).slice(0, brownNum), shuffle(ar[2]).slice(0, blueNum)];
     curDeck = [shuffle(curDeck[0]), shuffle(curDeck[1]), shuffle(curDeck[2])];
-    logCurDeck (curDeck);
+    logCurDeck(curDeck);
     divideToStages();
 }
 
@@ -304,18 +296,18 @@ function levHard() {
     });
     curDeck = [shuffle(ar[0]).slice(0, greenNum), shuffle(ar[1]).slice(0, brownNum), shuffle(ar[2]).slice(0, blueNum)];
     curDeck = [shuffle(curDeck[0]), shuffle(curDeck[1]), shuffle(curDeck[2])];
-    logCurDeck (curDeck);
+    logCurDeck(curDeck);
     divideToStages();
 }
+
 function levExpert() {
-    
     let arr = [];
     arr.push.apply(arr, defDeck);
-    const snow=[
+    const snow = [
         arr[0].filter(elem => elem.difficulty === 'easy'),
         arr[1].filter(elem => elem.difficulty === 'easy'),
         arr[2].filter(elem => elem.difficulty === 'easy')
-    ]; 
+    ];
     let ar = [];
     arr.forEach((el) => {
         el = el.filter((elem) => {
@@ -323,25 +315,25 @@ function levExpert() {
         });
         ar.push(el);
     });
-    
-    const hard=[
+    const hard = [
         ar[0].filter(elem => elem.difficulty === 'hard'),
         ar[1].filter(elem => elem.difficulty === 'hard'),
         ar[2].filter(elem => elem.difficulty === 'hard')
-    ]; 
+    ];
     const normal = [
         ar[0].filter(elem => elem.difficulty === 'normal'),
         ar[1].filter(elem => elem.difficulty === 'normal'),
         ar[2].filter(elem => elem.difficulty === 'normal')
     ];
-    function veryEasyDeck(hard,normal,num) {
-        if(num>hard.length) {
+
+    function veryEasyDeck(hard, normal, num) {
+        if (num > hard.length) {
             console.log('hard< then number needed');
-        return shuffle(hard).concat(shuffle(normal).slice(0,num-hard.length));
+            return shuffle(hard).concat(shuffle(normal).slice(0, num - hard.length));
         } else {
-            return shuffle(hard).slice(0,num);
+            return shuffle(hard).slice(0, num);
         }
-    } 
+    }
     console.log('DefDeck: ');
     console.log(defDeck);
     console.log('snow:');
@@ -350,18 +342,16 @@ function levExpert() {
     console.log(hard);
     console.log('normal:');
     console.log(normal);
-    console.log('numbers needed:'+'gr: '+greenNum,'br: '+brownNum,'bl: '+blueNum);
-    console.log('palps:'+'gr: '+hard[0].length,'br: '+hard[1].length,'bl: '+hard[2].length);
-    
-      curDeck=[
-        shuffle(veryEasyDeck(hard[0],normal[0],greenNum)),
-        shuffle(veryEasyDeck(hard[1],normal[1],brownNum)),
-        shuffle(veryEasyDeck(hard[2],normal[2],blueNum))
+    console.log('numbers needed:' + 'gr: ' + greenNum, 'br: ' + brownNum, 'bl: ' + blueNum);
+    console.log('palps:' + 'gr: ' + hard[0].length, 'br: ' + hard[1].length, 'bl: ' + hard[2].length);
+    curDeck = [
+        shuffle(veryEasyDeck(hard[0], normal[0], greenNum)),
+        shuffle(veryEasyDeck(hard[1], normal[1], brownNum)),
+        shuffle(veryEasyDeck(hard[2], normal[2], blueNum))
     ];
-    logCurDeck (curDeck);
+    logCurDeck(curDeck);
     divideToStages();
 }
-
 
 const shuffleBtn = document.querySelector('#shuffle');
 shuffleBtn.addEventListener('click', shuffleDeck);
@@ -369,62 +359,54 @@ shuffleBtn.addEventListener('click', shuffleDeck);
 function shuffleDeck() {
     if (!curLevel) {
         alert('choose level first');
-    } else { 
+    } else {
         if (curLevel === 'very-easy') {
-            resetFinal ();
+            resetFinal();
             levVeryEasy();
-           
-            
         }
         if (curLevel === 'easy') {
-            resetFinal ();
+            resetFinal();
             levEasy();
-            
-            
         }
         if (curLevel === 'medium') {
-            resetFinal ();
+            resetFinal();
             levMedium();
-           
-            
         }
         if (curLevel === 'hard') {
-            resetFinal ();
+            resetFinal();
             levHard();
-           
-            
         }
         if (curLevel === 'expert') {
-            resetFinal ();
+            resetFinal();
             levExpert();
-           
-            
         }
         console.log('__________________________________________');
-        console.log('Current level: '+curLevel);
+        console.log('Current level: ' + curLevel);
         console.log('__________________________________________');
         const deck = document.querySelector('.deck');
         const deckCover = document.querySelector('.deck-cover');
         if (!deck.classList.contains('option-active')) {
             deck.classList.add('option-active');
             deckCover.classList.add('deck-cover-active');
-        } 
+        }
     }
 }
 /*------create miniDecks for each stage-----------*/
 function divideToStages() {
     curDeck = [shuffle(curDeck[0]), shuffle(curDeck[1]), shuffle(curDeck[2])];
+
     stage1Cards = curDeck[0].splice(0, curCardSetConf.firstStage.greenCards).concat(curDeck[1].splice(0, curCardSetConf.firstStage.brownCards), curDeck[2].splice(0, curCardSetConf.firstStage.blueCards));
     stage1Cards = shuffle(stage1Cards);
-    stage1CardsNum=stage1Cards.length;
+    stage1CardsNum = stage1Cards.length;
 
     stage2Cards = curDeck[0].splice(0, curCardSetConf.secondStage.greenCards).concat(curDeck[1].splice(0, curCardSetConf.secondStage.brownCards), curDeck[2].splice(0, curCardSetConf.secondStage.blueCards));
     stage2Cards = shuffle(stage2Cards);
-    stage2CardsNum=stage2Cards.length;
+    stage2CardsNum = stage2Cards.length;
 
     stage3Cards = curDeck[0].splice(0, curCardSetConf.thirdStage.greenCards).concat(curDeck[1].splice(0, curCardSetConf.thirdStage.brownCards), curDeck[2].splice(0, curCardSetConf.thirdStage.blueCards));
     stage3Cards = shuffle(stage3Cards);
-    stage3CardsNum=stage3Cards.length;
+    stage3CardsNum = stage3Cards.length;
+
     console.log('stage1 cards:');
     console.log(stage1Cards);
     console.log('stage2 cards:');
@@ -435,82 +417,80 @@ function divideToStages() {
 
 /*-----final stack-------*/
 
-
 const deckBtn = document.querySelector('.deck');
-deckBtn.addEventListener('click',takeCard);
+deckBtn.addEventListener('click', takeCard);
 
-function takeCard (e) {
-    if(e.target.id==='deck') {
-    const dotTable = document.querySelectorAll('.dot');
-    
-     const dotTableIndMap = {
-    stage1: {
-        green: 0,
-        brown: 1,
-        blue: 2,   
-    },
-    stage2: {
-        green: 3,
-        brown: 4,
-        blue: 5,   
-    },
-    stage3: {
-        green: 6,
-        brown: 7,
-        blue: 8,   
-    },
-}; 
-const lastCard = document.querySelector('.last-card');
+function takeCard(e) {
+    if (e.target.id === 'deck') {
+        const dotTable = document.querySelectorAll('.dot');
+        const dotTableIndMap = {
+            stage1: {
+                green: 0,
+                brown: 1,
+                blue: 2,
+            },
+            stage2: {
+                green: 3,
+                brown: 4,
+                blue: 5,
+            },
+            stage3: {
+                green: 6,
+                brown: 7,
+                blue: 8,
+            },
+        };
+        const lastCard = document.querySelector('.last-card');
+        let curCard;
+        let randInd;
+        if (stage1Cards.length !== 0) {
+            randInd = getRandNum(stage1Cards.length - 1);
+            curCard = stage1Cards.slice(randInd, randInd + 1);
+            curTable.stage1[curCard[0].color] = curTable.stage1[curCard[0].color] - 1;
+            dotTable[dotTableIndMap.stage1[curCard[0].color]].textContent = curTable.stage1[curCard[0].color];
+            console.log('Current card: ' + curCard[0].color + ' ' + curCard[0].difficulty + ' ' + curCard[0].id);
+            lastCard.setAttribute('style', `background-image: url('${curCard[0].cardFace}.png')`);
+            finalStack.push(curCard[0]);
+            stage1Cards.splice(randInd, 1);
+            console.log('Current Stage cards left: ' + stage1Cards.length);
+            console.log('final stack: ');
+            console.log(finalStack);
+        } else if (stage2Cards.length !== 0) {
+            randInd = getRandNum(stage2Cards.length - 1);
+            curCard = stage2Cards.slice(randInd, randInd + 1);
+            curTable.stage2[curCard[0].color] = curTable.stage2[curCard[0].color] - 1;
+            dotTable[dotTableIndMap.stage2[curCard[0].color]].textContent = curTable.stage2[curCard[0].color];
+            console.log('Current card: ' + curCard[0].color + ' ' + curCard[0].difficulty + ' ' + curCard[0].id);
+            lastCard.setAttribute('style', `background-image: url('${curCard[0].cardFace}.png')`);
+            finalStack.unshift(curCard[0]);
+            stage2Cards.splice(randInd, 1);
+            console.log('Current Stage cards left: ' + stage2Cards.length);
+            console.log('final stack: ');
+            console.log(finalStack);
 
-    let curCard;
-    let randInd;
-   if(stage1Cards.length!==0) {
-        randInd=getRandNum(stage1Cards.length-1);
-curCard =stage1Cards.slice(randInd,randInd+1);
-curTable.stage1[curCard[0].color]=curTable.stage1[curCard[0].color]-1;
-dotTable[dotTableIndMap.stage1[curCard[0].color]].textContent=curTable.stage1[curCard[0].color];
-console.log('Current card: '+curCard[0].color+' '+curCard[0].difficulty+' '+curCard[0].id);
-lastCard.setAttribute('style', `background-image: url('${curCard[0].cardFace}.png')`);
-finalStack.push(curCard[0]);
-stage1Cards.splice(randInd,1);
-console.log('Current Stage cards left: '+stage1Cards.length);
-console.log('final stack: ');
-console.log(finalStack);
-} else if (stage2Cards.length!==0) {
-    randInd=getRandNum(stage2Cards.length-1);
-    curCard =stage2Cards.slice(randInd,randInd+1);
-    curTable.stage2[curCard[0].color]=curTable.stage2[curCard[0].color]-1;
-    dotTable[dotTableIndMap.stage2[curCard[0].color]].textContent=curTable.stage2[curCard[0].color];
-    console.log('Current card: '+curCard[0].color+' '+curCard[0].difficulty+' '+curCard[0].id);
-    lastCard.setAttribute('style', `background-image: url('${curCard[0].cardFace}.png')`);
-    finalStack.unshift(curCard[0]);
-    stage2Cards.splice(randInd,1);
-    console.log('Current Stage cards left: '+stage2Cards.length);
-    console.log('final stack: ');
-    console.log(finalStack);
-
-} else if (stage3Cards.length!==0) {
-    randInd=getRandNum(stage3Cards.length-1);
-    curCard =stage3Cards.slice(randInd,randInd+1);
-    curTable.stage3[curCard[0].color]=curTable.stage3[curCard[0].color]-1;
-    dotTable[dotTableIndMap.stage3[curCard[0].color]].textContent=curTable.stage3[curCard[0].color];
-    console.log('Current card: '+curCard[0].color+' '+curCard[0].difficulty+' '+curCard[0].id);
-    lastCard.setAttribute('style', `background-image: url('${curCard[0].cardFace}.png')`);
-    finalStack.unshift(curCard[0]);
-    stage3Cards.splice(randInd,1);
-    console.log('Current Stage cards left: '+stage3Cards.length);
-    console.log('final stack: ');
-    console.log(finalStack);
-    if (stage3Cards.length===0) {
-        resultStack=shuffle(finalStack.slice(0,stage3CardsNum)).concat(shuffle(finalStack.slice(stage3CardsNum,stage3CardsNum+stage2CardsNum)),shuffle(finalStack.slice(stage3CardsNum+stage2CardsNum,finalStack.length)));
-        console.log('Result stack: ');
-        console.log(resultStack);
-        
+        } else if (stage3Cards.length !== 0) {
+            randInd = getRandNum(stage3Cards.length - 1);
+            curCard = stage3Cards.slice(randInd, randInd + 1);
+            curTable.stage3[curCard[0].color] = curTable.stage3[curCard[0].color] - 1;
+            dotTable[dotTableIndMap.stage3[curCard[0].color]].textContent = curTable.stage3[curCard[0].color];
+            console.log('Current card: ' + curCard[0].color + ' ' + curCard[0].difficulty + ' ' + curCard[0].id);
+            lastCard.setAttribute('style', `background-image: url('${curCard[0].cardFace}.png')`);
+            finalStack.unshift(curCard[0]);
+            stage3Cards.splice(randInd, 1);
+            console.log('Current Stage cards left: ' + stage3Cards.length);
+            console.log('final stack: ');
+            console.log(finalStack);
+            if (stage3Cards.length === 0) {
+                resultStack = shuffle(finalStack.slice(0, stage3CardsNum)).concat(shuffle(finalStack.slice(stage3CardsNum, stage3CardsNum + stage2CardsNum)), shuffle(finalStack.slice(stage3CardsNum + stage2CardsNum, finalStack.length)));
+                console.log('Result stack: ');
+                console.log(resultStack);
+                lastCard.innerHTML ='<div>Game Over</div>';
+                
+            }
+        } else {
+            lastCard.setAttribute('style', `background-image: none`);
+        }
+    } else {
+        alert('Shuffle decks for each stage first - press Shuffle button');
     }
-} else {
-    lastCard.setAttribute('style', `background-image: none`);
-    alert('WELL DONE');
-}
-
-} else {alert('Shuffle decks for each stage first - press Shuffle button');}
 }

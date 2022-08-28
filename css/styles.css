@@ -144,7 +144,6 @@ outline: 1px solid rgb(153, 39, 39);
     height: 190px;
     width: 130px;
     border-radius: 7px;
-    cursor:pointer;
 }
 .deck:active, button:active, .ancient-card:active {
     transform: scale(1.1,1.1);
@@ -153,10 +152,18 @@ transition:0.3s ;
 .deck:hover {
     outline: 1px solid red;
     transition:0.3s ;
+    cursor:pointer;
 }
-/* .last-card {
-    outline: 1px solid red;
-} */
+.last-card {
+    display:flex;
+    align-items:center;
+    justify-content: center;
+    text-align: center;
+    color:blue;
+    font-size:23px;
+    font-weight:bold;
+    text-shadow: 0 0 9px white;
+}
 
 .option-active {
     outline: 2px solid red;
