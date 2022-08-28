@@ -4,7 +4,8 @@ import iogSothoth from './IogSothoth.png';
 import shubNiggurath from './ShubNiggurath.png'; */
 let azathoth = './Azathoth.png';
 let cthulhu = './Cthulthu.png';
-
+let iogSothoth = './iogSothoth.png';
+let shubNiggurath = './shubNiggurath.png';
 const ancients = {
   azathoth,
   cthulhu,
