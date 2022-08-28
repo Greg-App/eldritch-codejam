@@ -93,6 +93,7 @@ function resetFinal() {
     if (deck.classList.contains('option-active')) {
         const lastCard = document.querySelector('.last-card');
         lastCard.setAttribute('style', `background-image: none`);
+        lastCard.textContent ='';
         finalStack.splice(0, finalStack.length);
         stage1Cards.splice(0, stage1Cards.length);
         stage2Cards.splice(0, stage2Cards.length);
@@ -483,10 +484,11 @@ function takeCard(e) {
                 resultStack = shuffle(finalStack.slice(0, stage3CardsNum)).concat(shuffle(finalStack.slice(stage3CardsNum, stage3CardsNum + stage2CardsNum)), shuffle(finalStack.slice(stage3CardsNum + stage2CardsNum, finalStack.length)));
                 console.log('Result stack: ');
                 console.log(resultStack);
+                lastCard.innerHTML ='<div>Game Over</div>';
+                
             }
         } else {
             lastCard.setAttribute('style', `background-image: none`);
-            alert('WELL DONE');
         }
     } else {
         alert('Shuffle decks for each stage first - press Shuffle button');
